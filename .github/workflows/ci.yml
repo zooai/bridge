@@ -33,4 +33,4 @@ jobs:
         with:
           push: true
           platforms: linux/amd64
-          tags: ghcr.io/zooai/bridge:latest,ghcr.io/zooai/bridge:${{ github.sha }}
+          tags: ghcr.io/zoo-labs/bridge:latest,ghcr.io/zoo-labs/bridge:${{ github.sha }}

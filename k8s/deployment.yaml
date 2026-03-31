@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoo-bridge
+  namespace: zoo-system
+  labels:
+    app: zoo-bridge
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: zoo-bridge
+  template:
+    metadata:
+      labels:
+        app: zoo-bridge
+    spec:
+      containers:
+        - name: bridge
+          image: ghcr.io/zoo-labs/bridge:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: BRIDGE_SOURCE_CHAIN
+              value: zoo-evm
+            - name: BRIDGE_DEST_CHAIN
+              value: lux-c-chain
+            - name: BRIDGE_MPC_URL
+              value: http://zoo-mpc:8081
+            - name: BRIDGE_BRAND_NAME
+              value: Zoo
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: zoo-db-credentials
+                  key: bridge-url
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zoo-bridge
+  namespace: zoo-system
+spec:
+  selector:
+    app: zoo-bridge
+  ports:
+    - port: 8080
+      targetPort: 8080

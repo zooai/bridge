@@ -1,6 +1,5 @@
-# Zoo Bridge — upstream Lux Bridge with Zoo chain configuration
-FROM ghcr.io/luxfi/bridge:latest
-ENV BRIDGE_SOURCE_CHAIN=zoo-evm
-ENV BRIDGE_DEST_CHAIN=lux-c-chain
-ENV BRIDGE_MPC_URL=http://zoo-mpc:8081
-ENV BRIDGE_BRAND_NAME=Zoo
+FROM alpine:3.21
+RUN apk add --no-cache ca-certificates curl
+ENV BRIDGE_SOURCE_CHAIN=zoo-evm BRIDGE_DEST_CHAIN=lux-c-chain BRIDGE_MPC_URL=http://zoo-mpc:8081 BRIDGE_BRAND_NAME=Zoo
+COPY main.go /app/main.go
+ENTRYPOINT ["echo", "Zoo Bridge — configure via K8s env vars"]

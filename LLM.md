@@ -1,0 +1,2 @@
+# bridge — AI Assistant Context
+
